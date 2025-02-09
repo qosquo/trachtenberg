@@ -4,6 +4,8 @@ from nltk.corpus import stopwords
 import re
 import string
 import nltk
+
+nltk.download('stopwords')
 stopwords_ru = set(stopwords.words('russian'))
 morph = MorphAnalyzer()
 
