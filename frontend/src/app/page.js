@@ -1,11 +1,41 @@
-import Image from "next/image";
+import ModelCompletion from "@/components/ModelCompletion";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        Hi!
-      </main>
+    <div
+      style={{
+        width: "50rem",
+        margin: "1rem",
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+      }}
+    >
+      <ModelCompletion
+        model="Deepseek-R1"
+        completion="Заходит мужик в библиотеку и спрашивает:
+— У вас есть книги про парадоксы времени?
+Библиотекарь, не поднимая глаз:
+— Есть… Но они ещё не вернулись.
+
+Пауза.
+
+Мужик, подозрительно:
+— Это как понять?
+Библиотекарь, наконец глядя на него:
+— Видите ли, их взяли почитать в прошлый вторник… В следующем месяце."
+        match={54.23}
+      />
+      <ModelCompletion
+        model="Qwen2.5-72B-Instruct"
+        completion='Я недавно пошел на курсы скорочтения. Преподаватель сказал: "Чтобы читать быстро, нужно научиться не произносить слова про себя." Я ему ответил: "А как же тогда понимать, что написано?" Он сказал: "Это придет с практикой." Я подумал: "Ну, если я начну понимать, что написано, только после того, как перестану его произносить про себя, то, наверное, мне лучше остаться с медленным чтением."'
+        match={43.23}
+      />
+      <ModelCompletion
+        model="Qwen2.5-Plus"
+        completion="— Доктор, а мне родинку на спине удалять будем?
+— Будем… вместе со спиной! У нас теперь такая методика — ничего не оставляем на усмотрение судьбы."
+        match={67.45}
+      />
     </div>
   );
 }
