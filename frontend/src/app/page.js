@@ -1,41 +1,60 @@
+"use client";
+
+import { useRef, useState } from "react";
 import ModelCompletion from "@/components/ModelCompletion";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
+  const [input, setInput] = useState("Теща");
+  const refs = [useRef(null), useRef(null)];
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    refs.forEach((ref) => {
+      if (ref.current) {
+        ref.current.complete(input);
+      }
+    });
+  };
+
   return (
     <div
       style={{
         width: "50rem",
         margin: "1rem",
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
       }}
     >
-      <ModelCompletion
-        model="Deepseek-R1"
-        completion="Заходит мужик в библиотеку и спрашивает:
-— У вас есть книги про парадоксы времени?
-Библиотекарь, не поднимая глаз:
-— Есть… Но они ещё не вернулись.
-
-Пауза.
-
-Мужик, подозрительно:
-— Это как понять?
-Библиотекарь, наконец глядя на него:
-— Видите ли, их взяли почитать в прошлый вторник… В следующем месяце."
-        match={54.23}
-      />
-      <ModelCompletion
-        model="Qwen2.5-72B-Instruct"
-        completion='Я недавно пошел на курсы скорочтения. Преподаватель сказал: "Чтобы читать быстро, нужно научиться не произносить слова про себя." Я ему ответил: "А как же тогда понимать, что написано?" Он сказал: "Это придет с практикой." Я подумал: "Ну, если я начну понимать, что написано, только после того, как перестану его произносить про себя, то, наверное, мне лучше остаться с медленным чтением."'
-        match={43.23}
-      />
-      <ModelCompletion
-        model="Qwen2.5-Plus"
-        completion="— Доктор, а мне родинку на спине удалять будем?
-— Будем… вместе со спиной! У нас теперь такая методика — ничего не оставляем на усмотрение судьбы."
-        match={67.45}
-      />
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          display: "grid",
+          gridTemplateColumns: "4fr 1fr",
+        }}
+      >
+        <Input
+          value={input}
+          // disabled={true}
+          onChange={(e) => setInput(e.target.value)}
+          id="input"
+          placeholder="Введите тему анекдота"
+        />
+        <Button style={{ margin: "0 1rem" }} type="submit">
+          Отправить
+        </Button>
+      </form>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+        }}
+      >
+        <ModelCompletion
+          ref={refs[0]}
+          provider="ollama"
+          model="qwen2.5:1.5b"
+        />
+      </div>
     </div>
   );
 }
