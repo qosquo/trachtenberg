@@ -51,8 +51,8 @@ export default function Home() {
       >
         <ModelCompletion
           ref={refs[0]}
-          provider="ollama"
-          model="qwen2.5:1.5b"
+          provider="gigachat"
+          model="GigaChat"
         />
       </div>
     </div>
