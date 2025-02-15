@@ -1,4 +1,19 @@
-__pycache__
+.dockerignore
+.env
+Dockerfile
+docker-compose.yml
+**/__pycache__
 *.pyc
+.venv
 data/
 *.ipynb
+**/node_modules
+# Log files
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.next
+.git

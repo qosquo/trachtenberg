@@ -13,3 +13,11 @@ services:
     volumes:
       - ./models:/usr/local/app/models
       - ./src:/usr/local/app/src
+
+  frontend:
+    image: frontend
+    build: 
+      context: ./frontend/
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
