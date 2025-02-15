@@ -33,8 +33,8 @@ const ModelCompletion = forwardRef(({ provider, model }, ref) => {
 
   return (
     <div>
-      <div>{model}</div>
-      {completion}
+      <div className="font-bold">{model}</div>
+      <div className="my-2">{completion}</div>
       <div>Совпадение: {(match * 100)?.toFixed(2) ?? 0}%</div>
     </div>
   );
