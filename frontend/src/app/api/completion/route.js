@@ -18,8 +18,8 @@ const registry = createProviderRegistry({
   gigachat: createOpenAI({
     baseURL: "https://gigachat.devices.sberbank.ru/api/v1",
     compatibility: "compatible",
-    apiKey: process.env.GIGACHAT_ACCESS_TOKEN ?? '',
-    fetch: (url, options) => {
+    apiKey: process.env.GIGACHAT_ACCESS_TOKEN ?? "",
+    fetch: async (url, options) => {
       const hasToken =
         process.env.GIGACHAT_ACCESS_TOKEN &&
         process.env.GIGACHAT_EXPIRES_AT != null;
@@ -45,16 +45,16 @@ const registry = createProviderRegistry({
           data: data,
           httpsAgent: agent,
         };
-        axios(config)
-          .then((response) => {
-            const json = response.data;
-            process.env.GIGACHAT_ACCESS_TOKEN = json.access_token;
-            process.env.GIGACHAT_EXPIRES_AT = json.expires_at;
-            console.log(JSON.stringify(process.env.GIGACHAT_ACCESS_TOKEN));
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+
+        try {
+          const response = await axios(config);
+          const json = response.data;
+          process.env.GIGACHAT_ACCESS_TOKEN = json.access_token;
+          process.env.GIGACHAT_EXPIRES_AT = json.expires_at;
+          console.log(JSON.stringify(process.env.GIGACHAT_ACCESS_TOKEN));
+        } catch (error) {
+          console.log(error);
+        }
       }
       return axios({
         method: "post",
@@ -62,7 +62,7 @@ const registry = createProviderRegistry({
         url: url,
         headers: {
           ...options.headers,
-          Authorization: `Bearer ${process.env.GIGACHAT_ACCESS_TOKEN}`
+          Authorization: `Bearer ${process.env.GIGACHAT_ACCESS_TOKEN}`,
         },
         httpsAgent: agent,
         data: options.body,
@@ -98,6 +98,7 @@ export async function POST(req) {
       "Ты - рассказчик анекдотов Роман Трахтенберг. Я буду писать тему на которую ты должен написать анекдот в его стиле, стиле Романа Львовича Трахтенберга. Твой ответ должен содержать только анекдот и ничего больше, никаких 'конечно, вот анекдот' и тому подобное.",
     prompt,
     stream: true,
+    maxTokens: 200,
     update_interval: 0.2,
   });
 
