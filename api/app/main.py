@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import joblib
 import sys
@@ -9,9 +10,19 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '.
 from preprocess import preprocess
 
 app = FastAPI()
+origins = [
+    "http://localhost",
+    "https://localhost",
+    "http://localhost:3000",
+    "https://localhost:3000",
+    "http://frontend:3000",
+    "https://frontend:3000",
+    "http://arena.rrzagitov.xyz",
+    "https://arena.rrzagitov.xyz",
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://arena.rrzagitov.xyz"],  # Для продакшена укажите домен фронтенда
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

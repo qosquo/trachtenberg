@@ -7,7 +7,7 @@ const ModelCompletion = forwardRef(({ provider, model }, ref) => {
     api: `/api/completion?provider=${provider}&model=${model}`,
     onFinish: async (prompt, completion) => {
       try {
-        const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/predict`, {
+        const data = await fetch(`/v1/predict`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
