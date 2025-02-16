@@ -27,6 +27,9 @@ model = LogisticRegression(random_state=42, class_weight=None, solver='liblinear
 model.fit(X_train, y_train)
 
 model_path = os.path.join(current_dir, '..', 'models', 'model.pkl')
+if not os.path.exists(os.path.dirname(model_path)):
+    os.makedirs(os.path.dirname(model_path))
+
 vectorizer_path = os.path.join(current_dir, '..', 'models', 'tfidf_vectorizer.pkl')
 joblib.dump(model, model_path)
 joblib.dump(tfidf, vectorizer_path)
