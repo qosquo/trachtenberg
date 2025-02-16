@@ -9,6 +9,14 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '.
 from preprocess import preprocess
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://arena.rrzagitov.xyz"],  # Для продакшена укажите домен фронтенда
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 model = joblib.load('../../models/model.pkl')
 vectorizer = joblib.load('../../models/tfidf_vectorizer.pkl')
 

@@ -12,4 +12,6 @@ COPY api/app ./api/app
 
 WORKDIR /usr/local/app/api/app
 
+ENV PORT=8000
+
 CMD uvicorn main:app --host 0.0.0.0 --port $PORT
