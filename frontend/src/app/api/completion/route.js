@@ -60,7 +60,10 @@ const registry = createProviderRegistry({
         method: "post",
         maxBodyLength: Infinity,
         url: url,
-        headers: options.headers,
+        headers: {
+          ...options.headers,
+          Authorization: `Bearer ${process.env.GIGACHAT_ACCESS_TOKEN}`
+        },
         httpsAgent: agent,
         data: options.body,
       })

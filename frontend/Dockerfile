@@ -1,16 +1,40 @@
-FROM node:18-alpine
+FROM node:18-alpine AS deps
+WORKDIR /app
+
+RUN apk add --no-cache libc6-compat
+
+COPY package*.json ./
+
+RUN npm install
+
+
+FROM node:18-alpine AS builder
+WORKDIR /app
+
+COPY --from=deps /app/node_modules ./node_modules
+
+COPY . .
+
+RUN npm run build
+
+
+FROM node:18-alpine AS runner
 
 WORKDIR /app
 
-# Копируем package.json и package-lock.json
-COPY package*.json ./
+ENV NODE_ENV production
 
-# Устанавливаем зависимости внутри контейнера
-RUN npm install
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
 
-# Копируем остальные файлы
-COPY . .
+COPY --from=builder /app/public ./public
 
-# Сборка и запуск
-RUN npm run build
-CMD ["npm", "start"]
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
+CMD ["node", "server.js"]
