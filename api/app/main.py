@@ -7,7 +7,7 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'src')))
 
-from preprocess import preprocess
+from preprocess import preprocess_text, tokenize_text
 
 app = FastAPI()
 origins = [
@@ -40,7 +40,7 @@ class TextResponse(BaseModel):
 @app.post('/predict', response_model=TextResponse)
 def predict(request: TextRequest):
   text = request.text
-  clean_text = preprocess(text)
-  vector = vectorizer.transform([clean_text])
+  clean_text = tokenize_text(preprocess_text(text))
+  vector = vectorizer.transform([" ".join(clean_text)])
   prediction = model.predict_proba(vector)
   return {'prediction': prediction[0][1]}
