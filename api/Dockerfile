@@ -1,6 +1,6 @@
 FROM python:3.10-slim
 
-WORKDIR /usr/local/app
+WORKDIR /app
 
 COPY requirements.txt .
 
@@ -10,7 +10,7 @@ RUN python -m nltk.downloader stopwords
 
 COPY api/app ./api/app
 
-WORKDIR /usr/local/app/api/app
+WORKDIR /app/api/app
 
 ENV PORT=8000
 
