@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 
 export default function Home() {
   const [input, setInput] = useState("Теща");
-  const refs = [useRef(null), useRef(null)];
+  const refs = [useRef(null), useRef(null), useRef(null), useRef(null)];
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -21,7 +21,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <h2 className="scroll-m-20 mx-5 mb-10 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+      <h2 className="scroll-m-20 text-center mx-5 mb-10 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
       ЛЛМ арена имени Р. Трахтенберга
     </h2>
       <div className="sm:w-1/2 mx-5">
@@ -47,7 +47,10 @@ export default function Home() {
           </Button>
         </form>
         <div className="grid grid-cols-2">
-          <ModelCompletion ref={refs[0]} provider="gigachat" model="GigaChat" />
+          <ModelCompletion ref={refs[0]} provider="openai" model="gpt-3.5-turbo" />
+          <ModelCompletion ref={refs[1]} provider="openai" model="gpt-4o-mini" />
+          <ModelCompletion ref={refs[2]} provider="deepseek" model="deepseek-chat" />
+          <ModelCompletion ref={refs[3]} provider="google" model="gemini-2.0-flash" />
         </div>
       </div>
     </div>

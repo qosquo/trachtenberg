@@ -1,6 +1,9 @@
 import { streamText } from "ai";
 import { createOllama } from "ollama-ai-provider";
 import { createOpenAI } from "@ai-sdk/openai";
+import { createAnthropic } from "@ai-sdk/anthropic";
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
+import { createDeepSeek } from '@ai-sdk/deepseek';
 import { experimental_createProviderRegistry as createProviderRegistry } from "ai";
 import { Agent } from "https";
 import axios from "axios";
@@ -14,6 +17,23 @@ const agent = new Agent({
 const registry = createProviderRegistry({
   ollama: createOllama({
     baseURL: "http://localhost:11434/api",
+  }),
+  openai: createOpenAI({
+    baseURL: "https://api.proxyapi.ru/openai/v1",
+    compatibility: "compatible",
+    apiKey: process.env.PROXY_API_KEY ?? "",
+  }),
+  anthropic: createAnthropic({
+    baseURL: "https://api.proxyapi.ru/anthropic/v1",
+    apiKey: process.env.PROXY_API_KEY ?? "",
+  }),
+  google: createGoogleGenerativeAI({
+    baseURL: "https://api.proxyapi.ru/google/v1",
+    apiKey: process.env.PROXY_API_KEY ?? "",
+  }),
+  deepseek: createDeepSeek({
+    baseURL: "https://api.proxyapi.ru/deepseek/v1",
+    apiKey: process.env.PROXY_API_KEY ?? "",
   }),
   gigachat: createOpenAI({
     baseURL: "https://gigachat.devices.sberbank.ru/api/v1",
