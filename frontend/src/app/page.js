@@ -8,19 +8,33 @@ import { Label } from "@/components/ui/label";
 
 export default function Home() {
   const [input, setInput] = useState("Теща");
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false)
   const refs = [useRef(null), useRef(null), useRef(null), useRef(null)];
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    refs.forEach((ref) => {
-      if (ref.current) {
-        ref.current.complete(input);
+    setIsButtonDisabled(true);
+    let index = 0;
+
+    const completeRefs = () => {
+      if (index < refs.length) {
+        const ref = refs[index];
+        if (ref.current) {
+          ref.current.complete(input);
+        }
+        index++;
+        setTimeout(completeRefs, 250);
       }
-    });
+    };
+
+    completeRefs();
+    setTimeout(() => {
+      setIsButtonDisabled(false);
+    }, 10000);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="flex flex-col items-center my-10 justify-center h-screen">
       <h2 className="scroll-m-20 text-center mx-5 mb-10 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
       ЛЛМ арена имени Р. Трахтенберга
     </h2>
@@ -42,7 +56,7 @@ export default function Home() {
             id="input"
             placeholder="Введите тему анекдота"
           />
-          <Button className="mx-2 mb-4" disabled={input === ""} type="submit">
+          <Button className="mx-2 mb-4" disabled={isButtonDisabled || input === ""} type="submit">
             Отправить
           </Button>
         </form>
